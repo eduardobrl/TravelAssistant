@@ -1,9 +1,18 @@
+import asyncio
 import json
 from telegram.requests.update_chat import Update
 from telegram.telegram_client import TelegramClient
 import logging
 
-async def lambda_handler(event, context):
+
+def lambda_handler(event, context):
+    # Use asyncio.run to synchronously "await" an async function
+    result = asyncio.run(async_lambda_handler(event, context))
+    
+    return result
+
+
+async def async_lambda_handler(event, context):
     """Sample pure Lambda function
 
     Parameters
