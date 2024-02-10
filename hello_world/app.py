@@ -2,7 +2,7 @@ import json
 from telegram.requests.update_chat import Update
 from telegram.telegram_client import TelegramClient
 
-def lambda_handler(event, context):
+async def lambda_handler(event, context):
     """Sample pure Lambda function
 
     Parameters
@@ -52,7 +52,7 @@ def lambda_handler(event, context):
     client = TelegramClient()
     
     
-    client.send_message(chat_id=update.message.chat.id, text=update.message.text)
+    await client.send_message(chat_id=update.message.chat.id, text=update.message.text)
     
     print(json.dumps(event))
 
