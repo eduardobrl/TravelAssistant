@@ -1,6 +1,6 @@
 import asyncio
 import json
-from hello_world.repositories.chat_repository import UserRepository
+from repositories.chat_repository import UserRepository
 from openai.openai_client import OpenAiClient
 from telegram.requests.update_chat import Update
 from telegram.telegram_client import TelegramClient
