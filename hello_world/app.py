@@ -1,5 +1,6 @@
 import asyncio
 import json
+from hello_world.repositories.chat_repository import UserRepository
 from openai.openai_client import OpenAiClient
 from telegram.requests.update_chat import Update
 from telegram.telegram_client import TelegramClient
@@ -34,14 +35,10 @@ async def async_lambda_handler(event, context):
 
         Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
     """
-
-    # try:
-    #     ip = requests.get("http://checkip.amazonaws.com/")
-    # except requests.RequestException as e:
-    #     # Send some context about this error to Lambda Logs
-    #     print(e)
-
-    #     raise e
+    
+    telegram = TelegramClient()
+    openai = OpenAiClient()
+    repository = UserRepository()
     
     body = event.get("body")
     if body is None:
@@ -49,7 +46,6 @@ async def async_lambda_handler(event, context):
             "statusCode": 404,
             "body": "Invalid request"
         }
-        
         
     logging.info({
         "message": "Body Data",
@@ -65,13 +61,17 @@ async def async_lambda_handler(event, context):
     
     update = Update.model_validate(data)
     
+    
+    if not repository.is_chat_allowed(update.message.chat.id):
+        logging.error({"message": "Not Allowed"})
+        return {
+            "statusCode": 404,
+            "body": "Chat not allowed"
+        }
+    
     logging.info({"message": "Model validated"})
     
-    
-    
-    telegram = TelegramClient()
-    openai = OpenAiClient()
-    
+       
     response = openai.ask(update.message.text)
 
     response = await telegram.send_message(chat_id=update.message.chat.id, text=response)
