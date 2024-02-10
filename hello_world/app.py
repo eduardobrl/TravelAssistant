@@ -1,7 +1,6 @@
 import json
-
-# import requests
-
+from hello_world.telegram.requests.update_chat import Update
+from hello_world.telegram.telegram_client import TelegramClient
 
 def lambda_handler(event, context):
     """Sample pure Lambda function
@@ -32,6 +31,28 @@ def lambda_handler(event, context):
     #     print(e)
 
     #     raise e
+    
+    request_context = event.get("requestContext")
+    if request_context is None:
+        return {
+            "statusCode": 404,
+            "body": "Invalid request"
+        }
+        
+    body = request_context.get("body")
+    if body is None:
+        return {
+            "statusCode": 404,
+            "body": "Invalid request"
+        }
+    
+    data = json.loads(body)
+    update = Update.model_validate(data)
+    
+    client = TelegramClient()
+    
+    
+    client.send_message(chat_id=update.message.chat.id, text=update.message.text)
     
     print(json.dumps(event))
 
