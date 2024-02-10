@@ -1,5 +1,7 @@
 import aiohttp
 import os
+import logging
+
 class TelegramClient:
    
     def __init__(self) -> None:
@@ -8,6 +10,10 @@ class TelegramClient:
     
     
     async def send_message(self, chat_id, text):
+        logging.info(f"Sending message to chat_id: {chat_id}")
+        logging.info(f"Message text: {text}")
+        logging.info(f"API URL: {self.API_URL}")
+        
         data = {
             'chat_id': chat_id,
             'text': text
