@@ -14,23 +14,6 @@ Globals:
     LoggingConfig:
       LogFormat: JSON
 Resources:
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      RestApiId:
-        Ref: ApiGatewayApi
-      CodeUri: hello_world/
-      Handler: app.lambda_handler
-      Runtime: python3.11
-      Architectures:
-      - x86_64
-      Events:
-        HelloWorld:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            Path: /hello
-            Method: get
-
   ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
@@ -42,6 +25,23 @@ Resources:
           HttpMethod: GET
           CachingEnabled: true
           CacheTtlInSeconds: 300
+
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.lambda_handler
+      Runtime: python3.11
+      Architectures:
+      - x86_64
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /hello
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
