@@ -1,6 +1,6 @@
 import asyncio
 import json
-from repositories.chat_repository import UserRepository
+from repositories.chat_repository import ChatRepository
 from openai.openai_client import OpenAiClient
 from telegram.requests.update_chat import Update
 from telegram.telegram_client import TelegramClient
@@ -38,7 +38,7 @@ async def async_lambda_handler(event, context):
     
     telegram = TelegramClient()
     openai = OpenAiClient()
-    repository = UserRepository()
+    repository = ChatRepository()
     
     body = event.get("body")
     if body is None:
