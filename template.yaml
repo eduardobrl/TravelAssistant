@@ -17,6 +17,8 @@ Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
+      RestApiId:
+        Ref: ApiGatewayApi
       CodeUri: hello_world/
       Handler: app.lambda_handler
       Runtime: python3.11
@@ -29,16 +31,17 @@ Resources:
             Path: /hello
             Method: get
 
-  MyApi:
+  ApiGatewayApi:
     Type: AWS::Serverless::Api
     Properties:
-      Events:
-        HelloWorld:
-          Type: Api 
-          Properties: 
-            Path: /hello
-            Method: get
-            RestApiId: !Ref MyApi
+      StageName: hom
+      CacheClusterEnabled: true
+      CacheClusterSize: '0.5'
+      MethodSettings:
+        - ResourcePath: /hello
+          HttpMethod: GET
+          CachingEnabled: true
+          CacheTtlInSeconds: 300
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
