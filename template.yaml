@@ -21,7 +21,8 @@ Resources:
       Runtime: python3.11
       Timeout: 30
       Environment:
-        TABLE_NAME: TravelAssistantTable
+        Variables:
+          TABLE_NAME: TravelAssistantTable
       Architectures:
       - x86_64
       Events:
