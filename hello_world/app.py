@@ -42,19 +42,7 @@ async def async_lambda_handler(event, context):
 
     #     raise e
     
-    request_context = event.get("requestContext")
-    if request_context is None:
-        return {
-            "statusCode": 404,
-            "body": "Invalid request"
-        }
-        
-    logging.info({
-        "message": "request_context Data",
-        "body": json.dumps(request_context)
-    })
-        
-    body = request_context.get("body")
+    body = event.get("body")
     if body is None:
         return {
             "statusCode": 404,
