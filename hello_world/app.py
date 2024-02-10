@@ -1,5 +1,6 @@
 import asyncio
 import json
+from openai.openai_client import OpenAiClient
 from telegram.requests.update_chat import Update
 from telegram.telegram_client import TelegramClient
 import logging
@@ -66,9 +67,14 @@ async def async_lambda_handler(event, context):
     
     logging.info({"message": "Model validated"})
     
-    client = TelegramClient()
+    
+    
+    telegram = TelegramClient()
+    openai = OpenAiClient()
+    
+    response = openai.ask(update.message.text)
 
-    response = await client.send_message(chat_id=update.message.chat.id, text=update.message.text)
+    response = await telegram.send_message(chat_id=update.message.chat.id, text=response)
     
     logging.info({"message": "Message response", "body": json.dumps(response)})
     
