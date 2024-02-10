@@ -9,7 +9,6 @@ Description: >
 Globals:
   Function:
     Timeout: 3
-
     # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
     LoggingConfig:
       LogFormat: JSON
@@ -21,6 +20,8 @@ Resources:
       Handler: app.lambda_handler
       Runtime: python3.11
       Timeout: 30
+      Environment:
+        TABLE_NAME: TravelAssistantTable
       Architectures:
       - x86_64
       Events:
@@ -29,6 +30,24 @@ Resources:
           Properties:
             Path: /hello
             Method: post
+
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      TableName: TravelAssistantTable
+      AttributeDefinitions: 
+        - AttributeName: PartitionKey
+          AttributeType: S
+        - AttributeName: RangeKey
+          AttributeType: S
+      KeySchema: 
+        - AttributeName: PartitionKey
+          KeyType: HASH
+        - AttributeName: RangeKey
+          KeyType: RANGE
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

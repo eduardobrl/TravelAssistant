@@ -4,7 +4,11 @@ class OpenAiClient:
 
     def __init__(self) -> None:
         self.client = OpenAI()
-        self.SYSTEM_PROMPT = """You are a helpful assistant."""
+        self.SYSTEM_PROMPT = """
+            Você é um bot assistente de viagens. 
+            Que ajuda usuários através do telegram a planejarem suas viagens.
+        
+        """
         
     def ask(self, question) -> str:
         completions =  self.client.chat.completions.create(
