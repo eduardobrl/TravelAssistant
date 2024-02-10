@@ -68,9 +68,9 @@ async def async_lambda_handler(event, context):
     
     client = TelegramClient()
 
-    await client.send_message(chat_id=update.message.chat.id, text=update.message.text)
+    response = await client.send_message(chat_id=update.message.chat.id, text=update.message.text)
     
-    logging.info({"message": "Message sended"})
+    logging.info({"message": "Message response", "body": json.dumps(response)})
     
     print(json.dumps(event))
 
