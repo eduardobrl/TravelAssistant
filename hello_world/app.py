@@ -1,6 +1,6 @@
 import json
-from hello_world.telegram.requests.update_chat import Update
-from hello_world.telegram.telegram_client import TelegramClient
+from telegram.requests.update_chat import Update
+from telegram.telegram_client import TelegramClient
 
 def lambda_handler(event, context):
     """Sample pure Lambda function
