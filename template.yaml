@@ -24,6 +24,8 @@ Resources:
       Environment:
         Variables:
           TABLE_NAME: TravelAssistantTable
+          OPENAI_API_KEY: <OPENAI_API_KEY>
+          TELEGRAM_BOT_TOKEN: <TELEGRAM_BOT_TOKEN>
       Architectures:
       - x86_64
       Events:
