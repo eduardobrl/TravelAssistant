@@ -6,7 +6,7 @@ class TelegramClient:
    
     def __init__(self) -> None:
         TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
-        self.API_URL = f"https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
+        self.API_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     
     
     async def send_message(self, chat_id, text):
