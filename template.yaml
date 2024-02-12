@@ -26,6 +26,7 @@ Resources:
           TABLE_NAME: TravelAssistantTable
           OPENAI_API_KEY: <OPENAI_API_KEY>
           TELEGRAM_BOT_TOKEN: <TELEGRAM_BOT_TOKEN>
+          CALENDAR_ID: <CALENDAR_ID>
       Architectures:
       - x86_64
       Events:

@@ -1,7 +1,7 @@
 import asyncio
 import json
-from repositories.chat_repository import ChatRepository
-from openai.openai_client import OpenAiClient
+from openai_service.openai_client import OpenAiClient
+from repositories.chat_repository import ChatRepository, ChatRole
 from telegram.requests.update_chat import Update
 from telegram.telegram_client import TelegramClient
 import logging
@@ -63,16 +63,36 @@ async def async_lambda_handler(event, context):
     
     
     if not repository.is_chat_allowed(update.message.chat.id):
-        logging.error({"message": "Not Allowed"})
+        if repository.is_chat_requested(update.message.chat.id):
+            return {
+                "statusCode": 200,
+                "body": "Chat not allowed"
+            }
+        
+        repository.add_chat_access_requested(update.message.chat.id)
+        await telegram.send_message(
+            chat_id=update.message.chat.id, 
+            text="""
+                    Olá ! Tudo bem ?
+                    Este bot está em fase de testes e você ainda não está autorizado a utilizar.
+                    
+                    A sua solicitação já foi enviada e caso aprovada você será informado. 
+                """
+        )
+        
         return {
-            "statusCode": 404,
+            "statusCode": 200,
             "body": "Chat not allowed"
         }
     
     logging.info({"message": "Model validated"})
     
+    chat_history = repository.get_messages(update.message.chat.id)
        
-    response = openai.ask(update.message.text)
+    response = openai.ask(update.message.text, chat_history)
+    
+    repository.add_message(update.message.chat.id, ChatRole.USER, update.message.text)
+    repository.add_message(update.message.chat.id, ChatRole.ASSISTANT, response)
 
     response = await telegram.send_message(chat_id=update.message.chat.id, text=response)
     
