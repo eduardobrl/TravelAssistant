@@ -103,7 +103,7 @@ class ChatRepository:
         
         items = response['Items']
         
-        if items is None:
+        if items is None or response['Count'] == 0:
             return None
         
         chat_messages = []
