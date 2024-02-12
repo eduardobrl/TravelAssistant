@@ -103,6 +103,9 @@ class ChatRepository:
         
         items = response['Items']
         
+        if items is None:
+            return None
+        
         chat_messages = []
         
         for item in items.reverse():
