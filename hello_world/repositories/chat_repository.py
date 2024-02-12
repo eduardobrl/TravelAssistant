@@ -54,7 +54,7 @@ class ChatRepository:
     def add_chat_access_requested(self, chat_id):
         response = self.client.put_item(
             TableName=self.TABLE_NAME,
-            Key={
+            Item={
                 'PartitionKey': {
                     'S': f"CHAT#{chat_id}"
                     },
