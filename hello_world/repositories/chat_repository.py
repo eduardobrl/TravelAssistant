@@ -70,7 +70,7 @@ class ChatRepository:
         ulid = ULID()
         response = self.client.put_item(
             TableName=self.TABLE_NAME,
-            Key={
+            Item={
                     'PartitionKey': {
                         'S': f"CHAT#{chat_id}"
                     },
@@ -83,7 +83,7 @@ class ChatRepository:
                     'content': {
                         'S': message
                     }
-                }
+                },
             )
 
     def get_messages(self, chat_id) -> ChatMessages:
