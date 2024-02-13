@@ -24,6 +24,9 @@ def stream_handler(event, context):
 
 async def async_stream_handler(event, context):
     telegram = TelegramClient()
+    
+    print(json.dumps(event))
+    
     for record in event['Records']:
         dynamodb_record = record["dynamodb"]
 
