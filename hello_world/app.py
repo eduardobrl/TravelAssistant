@@ -30,8 +30,8 @@ async def async_stream_handler(event, context):
     for record in event['Records']:
         dynamodb_record = record["dynamodb"]
 
-        partition_key = dynamodb_record["keys"]["PartitionKey"]["S"]
-        range_key = dynamodb_record["keys"]["RangeKey"]["S"]
+        partition_key = dynamodb_record["Keys"]["PartitionKey"]["S"]
+        range_key = dynamodb_record["Keys"]["RangeKey"]["S"]
 
         if dynamodb_record["eventName"] in ["INSERT", "MODIFY"]:
             chat_id = partition_key.split("#")[-1]
