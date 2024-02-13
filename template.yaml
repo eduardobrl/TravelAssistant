@@ -69,7 +69,7 @@ Resources:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
     StreamSpecification:
-      StreamViewType: NEW_IMAGES
+      StreamViewType: NEW_IMAGE
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
