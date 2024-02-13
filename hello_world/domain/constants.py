@@ -6,6 +6,19 @@ Este bot está em fase de testes e você ainda não está autorizado a utilizar.
 A sua solicitação já foi enviada e caso aprovada você será informado. 
                 """
                 
+    ACCESS_ALOWED_MESSAGE = """
+Parabéns ! Você está autorizado a utilizar o bot.
+Este permite que você tenha acesso ao seu calendario e planeje os seus próximos eventos.
+
+Você pode perguntar por exemplo:
+
+*Qual meu próximo evento ?*
+
+Ou
+
+*Quando será minha próxima viagem internacional ?*
+"""
+                
     OK_RESPONSE_NOT_ALLOWED = {
                 "statusCode": 200,
                 "body": "Chat not allowed"

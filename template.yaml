@@ -35,6 +35,22 @@ Resources:
           Properties:
             Path: /hello
             Method: post
+  StreamProcessorFunction:
+    Type: AWS::Lambda::Function
+      CodeUri: hello_world/
+      Handler: app.stream_handler
+      Runtime: python3.11
+      Timeout: 30
+      Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
+      Environment:
+        Variables:
+          TABLE_NAME: TravelAssistantTable
+          OPENAI_API_KEY: <OPENAI_API_KEY>
+          TELEGRAM_BOT_TOKEN: <TELEGRAM_BOT_TOKEN>
+          CALENDAR_ID: <CALENDAR_ID>
+      Architectures:
+      - x86_64
+      Role: !GetAtt LambdaExecutionRole.Arn
 
   DynamoDBTable:
     Type: AWS::DynamoDB::Table
@@ -53,6 +69,8 @@ Resources:
       ProvisionedThroughput: 
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
+    StreamSpecification:
+      StreamViewType: NEW_IMAGES
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
