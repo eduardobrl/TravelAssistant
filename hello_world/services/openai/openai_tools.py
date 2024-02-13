@@ -6,22 +6,11 @@ import inspect
 
 
 Tools = []
-def OpenAiTool(func):   
-    # arguments = inspect.getfullargspec(func).annotations
-    
-    # if len(arguments) > 0:
-    #     for key in arguments.keys():
-    #         type_hints = get_type_hints(arguments[key])
-            
-    #         for type_hint_key in type_hints.keys():
-    #             description = type_hints[type_hint_key].__metadata__
-                
-        
+def OpenAiTool(func):         
     Tools.append({
         "name": func.__name__,
         "description": func.__doc__,
-        "function": func,
-        #"arguments": arguments,
+        "function": func
     })
     
     
