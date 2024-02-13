@@ -49,7 +49,6 @@ Resources:
           TELEGRAM_BOT_TOKEN: <TELEGRAM_BOT_TOKEN>
       Architectures:
       - x86_64
-      Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
       Events:
         Stream:
           Type: DynamoDB
