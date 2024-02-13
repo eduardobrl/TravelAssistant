@@ -37,6 +37,7 @@ Resources:
             Method: post
   StreamProcessorFunction:
     Type: AWS::Lambda::Function
+    Properties:
       CodeUri: hello_world/
       Handler: app.stream_handler
       Runtime: python3.11
