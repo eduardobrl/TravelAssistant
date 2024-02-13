@@ -68,7 +68,7 @@ class ChatRepository:
     def add_message(self, chat_id, role, message):
         
         ulid = ULID()
-        response = self.client.put_item(
+        self.client.put_item(
             TableName=self.TABLE_NAME,
             Item={
                     'PartitionKey': {
@@ -92,7 +92,7 @@ class ChatRepository:
             KeyConditionExpression='PartitionKey = :pk and begins_with(RangeKey, :rk)', 
             ExpressionAttributeValues={
                 ':pk': {'S': f'CHAT#{chat_id}'},
-                ':rk': {'S': 'MESSAGE'}
+                ':rk': {'S': 'MESSSAGE'}
             },
             ScanIndexForward= False,
             Limit=20
@@ -107,11 +107,12 @@ class ChatRepository:
             return None
         
         chat_messages = []
+        items.reverse()
         
-        for item in items.reverse():
+        for item in items:
             message_role = item['role']['S']
             message_content = item['content']['S']
             
-            chat_messages.append(ChatMessage(message_role, message_content))
+            chat_messages.append(ChatMessage(role=message_role, content=message_content))
         
-        return ChatMessages(chat_messages)
+        return ChatMessages(messages=chat_messages)

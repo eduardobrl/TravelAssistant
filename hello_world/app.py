@@ -1,10 +1,12 @@
 import asyncio
 import json
-from openai_service.openai_client import OpenAiClient
-from repositories.chat_repository import ChatRepository, ChatRole
-from telegram.requests.update_chat import Update
-from telegram.telegram_client import TelegramClient
+from domain.constants import MessagesConstants
+from services.openai.openai_client import OpenAiClient
+from services.repositories.chat_repository import ChatRepository, ChatRole
 import logging
+from services.telegram.requests.update_chat import Update
+
+from services.telegram.telegram_client import TelegramClient
 
 
 def lambda_handler(event, context):
@@ -42,10 +44,7 @@ async def async_lambda_handler(event, context):
     
     body = event.get("body")
     if body is None:
-        return {
-            "statusCode": 404,
-            "body": "Invalid request"
-        }
+        return MessagesConstants.OK_INVALID_REQUEST
         
     logging.info({
         "message": "Body Data",
@@ -64,26 +63,15 @@ async def async_lambda_handler(event, context):
     
     if not repository.is_chat_allowed(update.message.chat.id):
         if repository.is_chat_requested(update.message.chat.id):
-            return {
-                "statusCode": 200,
-                "body": "Chat not allowed"
-            }
+            return MessagesConstants.OK_RESPONSE_NOT_ALLOWED
         
         repository.add_chat_access_requested(update.message.chat.id)
         await telegram.send_message(
             chat_id=update.message.chat.id, 
-            text="""
-                    Olá ! Tudo bem ?
-                    Este bot está em fase de testes e você ainda não está autorizado a utilizar.
-                    
-                    A sua solicitação já foi enviada e caso aprovada você será informado. 
-                """
+            text=MessagesConstants.NOT_AUTHORIZED_MESSAGE
         )
         
-        return {
-            "statusCode": 200,
-            "body": "Chat not allowed"
-        }
+        return MessagesConstants.OK_RESPONSE_NOT_ALLOWED
     
     logging.info({"message": "Model validated"})
     
@@ -100,7 +88,4 @@ async def async_lambda_handler(event, context):
     
     print(json.dumps(event))
 
-    return {
-        "statusCode": 200,
-        "body": json.dumps(event),
-    }
+    return MessagesConstants.OK_RESPONSE
