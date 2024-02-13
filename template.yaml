@@ -36,7 +36,7 @@ Resources:
             Path: /hello
             Method: post
   StreamProcessorFunction:
-    Type: AWS::Lambda::Function
+    Type: AWS::Serverless::Function 
     Properties:
       CodeUri: hello_world/
       Handler: app.stream_handler
