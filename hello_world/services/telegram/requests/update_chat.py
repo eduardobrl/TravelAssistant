@@ -3,11 +3,11 @@ from pydantic import BaseModel, Field
 
 class From(BaseModel):
   id: int
-  is_bot: bool
-  first_name: str
-  last_name: str 
-  username: str
-  language_code: str
+  is_bot: Optional[bool]
+  first_name: Optional[str] = None
+  last_name: Optional[str]  = None
+  username: Optional[str] = None
+  language_code: Optional[str] = None
 
 class Chat(BaseModel):
   id: int
