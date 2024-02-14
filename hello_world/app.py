@@ -34,11 +34,14 @@ async def async_stream_handler(event, context):
         range_key = dynamodb_record["Keys"]["RangeKey"]["S"]
 
         if record["eventName"] in ["INSERT", "MODIFY"]:
+            
             chat_id = partition_key.split("#")[-1]
+            print(chat_id)
             if range_key == "ALLOWED":
+                print(range_key)
                 await telegram.send_message(chat_id=chat_id, text=MessagesConstants.ACCESS_ALOWED_MESSAGE)
                 
-        return MessagesConstants.OK_RESPONSE        
+    return MessagesConstants.OK_RESPONSE        
         
 
 async def async_lambda_handler(event, context):
