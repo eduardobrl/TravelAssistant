@@ -12,7 +12,6 @@ Globals:
     # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
     LoggingConfig:
       LogFormat: JSON
-  DocumentBucketName: travel-assistant-documents
 Resources:
 
   TelegramProcessorFunction:
@@ -72,7 +71,7 @@ Resources:
       Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
       Environment:
         Variables:
-          BUCKET_NAME: !Ref DocumentBucketName
+          BUCKET_NAME: travel-assistant-documents
           TELEGRAM_BOT_TOKEN: <TELEGRAM_BOT_TOKEN>
       Architectures:
       - x86_64
@@ -89,7 +88,7 @@ Resources:
   DocumentBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref DocumentBucketName
+      BucketName: travel-assistant-documents
       NotificationConfiguration:
         LambdaConfigurations:
           - Event: s3:ObjectCreated:*
