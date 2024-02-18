@@ -2,11 +2,14 @@ import aiohttp
 import os
 import logging
 
+from app.services.telegram.requests.update_chat import File
+
 class TelegramClient:
    
     def __init__(self) -> None:
         TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
         self.API_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
+        self.FILE_URL = f"https://api.telegram.org/file/bot{TELEGRAM_BOT_TOKEN}"
     
     
     async def send_message(self, chat_id, text):
@@ -51,3 +54,11 @@ class TelegramClient:
                 return await response.json()
         return None
     
+    async def get_file(self, file_id) -> File:
+        data = {
+            'file_id': file_id,
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(self.API_URL + "/getFile", data=data) as response:
+                return await response.json()
+        return None

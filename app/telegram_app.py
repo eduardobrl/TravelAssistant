@@ -1,6 +1,8 @@
 import asyncio
 import json
 import logging
+import requests
+import boto3
 from domain.constants import MessagesConstants
 from services.openai.openai_client import OpenAiClient
 from services.repositories.chat_repository import ChatRepository, ChatRole
@@ -12,39 +14,13 @@ def lambda_handler(event, context):
     # Use asyncio.run to synchronously "await" an async function
     result = asyncio.run(async_lambda_handler(event, context))
     
-    return result
-
-def stream_handler(event, context):
-    result = asyncio.run(async_stream_handler(event, context))
-    
-    return result
-
-async def async_stream_handler(event, context):
-    telegram = TelegramClient()
-    
-    print(json.dumps(event))
-    
-    for record in event['Records']:
-        dynamodb_record = record["dynamodb"]
-
-        partition_key = dynamodb_record["Keys"]["PartitionKey"]["S"]
-        range_key = dynamodb_record["Keys"]["RangeKey"]["S"]
-
-        if record["eventName"] in ["INSERT", "MODIFY"]:
-            
-            chat_id = partition_key.split("#")[-1]
-            print(chat_id)
-            if range_key == "ALLOWED":
-                print(range_key)
-                await telegram.send_message(chat_id=chat_id, text=MessagesConstants.ACCESS_ALOWED_MESSAGE)
-                
-    return MessagesConstants.OK_RESPONSE        
-        
+    return result     
 
 async def async_lambda_handler(event, context):
     telegram = TelegramClient()
     openai = OpenAiClient()
     repository = ChatRepository()
+    s3 = boto3.client('s3')
     
     body = event.get("body")
     if body is None:
@@ -78,6 +54,20 @@ async def async_lambda_handler(event, context):
         return MessagesConstants.OK_RESPONSE_NOT_ALLOWED
     
     logging.info({"message": "Model validated"})
+    
+    if update.document is not None:
+        
+        if update.document.file_size > 2e7:
+            return MessagesConstants.MESSAGE_TOO_LARGE
+
+        file = await telegram.get_file(update.document.file_id)
+        response = requests.get(file.file_path)
+        s3.put_object(
+            Body=response.content, 
+            Bucket='travel-assistant-documents', 
+            Key=update.document.file_name + update.document.file_id
+        )
+        return MessagesConstants.OK_RESPONSE
     
     chat_history = repository.get_messages(update.message.chat.id)
        
