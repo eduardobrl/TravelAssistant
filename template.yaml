@@ -15,7 +15,7 @@ Globals:
     DocumentBucketName: travel-assistant-documents
 Resources:
 
-  HelloWorldFunction:
+  TelegramProcessorFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       CodeUri: app/
@@ -42,7 +42,7 @@ Resources:
     Type: AWS::Serverless::Function 
     Properties:
       CodeUri: app/
-      Handler: app.stream_handler
+      Handler: stream_app.stream_handler
       Runtime: python3.11
       Timeout: 30
       Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
@@ -123,9 +123,9 @@ Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL for Prod stage for Hello World function
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
-  HelloWorldFunction:
+  TelegramProcessorFunction:
     Description: Hello World Lambda Function ARN
-    Value: !GetAtt HelloWorldFunction.Arn
-  HelloWorldFunctionIamRole:
+    Value: !GetAtt TelegramProcessorFunction.Arn
+  TelegramProcessorFunctionIamRole:
     Description: Implicit IAM Role created for Hello World function
     Value: arn:aws:iam::525636320068:role/travel_assistant_lambda
