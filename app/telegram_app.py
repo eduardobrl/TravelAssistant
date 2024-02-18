@@ -71,7 +71,15 @@ async def async_lambda_handler(event, context):
             }
         )
         
-        response = requests.get(file.file_path)
+        if not file["ok"]:
+            logging.error({
+                "message": "Erro ao obter arquivo"
+                }
+            )
+            return MessagesConstants.OK_RESPONSE
+            
+        
+        response = requests.get(file["result"]["file_path"])
         
         logging.info({
             "message": "arquivo lido"
