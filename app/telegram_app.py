@@ -58,14 +58,35 @@ async def async_lambda_handler(event, context):
     if update.document is not None:
         
         if update.document.file_size > 2e7:
+            logging.error(MessagesConstants.MESSAGE_TOO_LARGE)
+            
             return MessagesConstants.MESSAGE_TOO_LARGE
 
         file = await telegram.get_file(update.document.file_id)
+        
+        logging.info({
+            "statusCode": 200,
+            "message": "resposta get file",
+            "body": json.dumps(file),
+            }
+        )
+        
         response = requests.get(file.file_path)
+        
+        logging.info({
+            "message": "arquivo lido"
+            }
+        )
+        
         s3.put_object(
             Body=response.content, 
             Bucket='travel-assistant-documents', 
             Key=update.document.file_name + update.document.file_id
+        )
+        
+        logging.info({
+            "message": "realizado o put do arquivo"
+            }
         )
         return MessagesConstants.OK_RESPONSE
     
