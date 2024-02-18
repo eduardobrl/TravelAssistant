@@ -35,7 +35,7 @@ async def async_lambda_handler(event, context):
     
     logging.info({
         "message": "data Loads",
-        "body": json.dumps(data)
+        "body": data
     })
     
     update = Update.model_validate(data)
@@ -55,19 +55,19 @@ async def async_lambda_handler(event, context):
     
     logging.info({"message": "Model validated"})
     
-    if update.document is not None:
+    if update.message.document is not None:
         
-        if update.document.file_size > 2e7:
+        if update.message.document.file_size > 2e7:
             logging.error(MessagesConstants.MESSAGE_TOO_LARGE)
             
             return MessagesConstants.MESSAGE_TOO_LARGE
 
-        file = await telegram.get_file(update.document.file_id)
+        file = await telegram.get_file(update.message.document.file_id)
         
         logging.info({
             "statusCode": 200,
             "message": "resposta get file",
-            "body": json.dumps(file),
+            "body": file,
             }
         )
         
@@ -81,7 +81,7 @@ async def async_lambda_handler(event, context):
         s3.put_object(
             Body=response.content, 
             Bucket='travel-assistant-documents', 
-            Key=update.document.file_name + update.document.file_id
+            Key=update.message.document.file_name + update.message.document.file_id
         )
         
         logging.info({

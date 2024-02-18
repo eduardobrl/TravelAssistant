@@ -37,8 +37,9 @@ class Message(BaseModel):
   chat: Chat 
   date: int
   text: Optional[str] = None
+  document: Optional[Document] = None
 
 class Update(BaseModel):
   update_id: int
   message: Message
-  document: Optional[Document] = None
+  
