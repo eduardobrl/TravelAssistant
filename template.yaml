@@ -83,7 +83,7 @@ Resources:
       Action: 'lambda:InvokeFunction'
       Principal: s3.amazonaws.com
       SourceAccount: !Ref 'AWS::AccountId'
-      SourceArn: !Ref DocumentBucket.Arn
+      SourceArn: arn:aws:s3:::travel-assistant-documents
 
   DocumentBucket:
     Type: AWS::S3::Bucket
