@@ -86,10 +86,10 @@ async def async_lambda_handler(event, context):
             }
         )
         
-        s3.put_object(
-            Body=response, 
-            Bucket='travel-assistant-documents', 
-            Key=update.message.document.file_name + update.message.document.file_id
+        s3.upload_fileobj(
+            response, 
+            'travel-assistant-documents', 
+            update.message.document.file_name
         )
         
         logging.info({
