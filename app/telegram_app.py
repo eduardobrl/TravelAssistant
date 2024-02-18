@@ -79,7 +79,7 @@ async def async_lambda_handler(event, context):
             return MessagesConstants.OK_RESPONSE
             
         
-        response = requests.get(file["result"]["file_path"])
+        response = await telegram.download_file(file)
         
         logging.info({
             "message": "arquivo lido"
@@ -87,7 +87,7 @@ async def async_lambda_handler(event, context):
         )
         
         s3.put_object(
-            Body=response.content, 
+            Body=response, 
             Bucket='travel-assistant-documents', 
             Key=update.message.document.file_name + update.message.document.file_id
         )

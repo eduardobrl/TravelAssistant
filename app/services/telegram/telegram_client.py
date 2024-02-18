@@ -62,3 +62,8 @@ class TelegramClient:
             async with session.post(self.API_URL + "/getFile", data=data) as response:
                 return await response.json()
         return None
+    
+    async def download_file(self, file: File):  
+        async with aiohttp.ClientSession() as session:
+            async with session.get(self.FILE_URL + "/" + file.file_path) as response:
+                return await response.content
