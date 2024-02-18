@@ -65,7 +65,7 @@ Resources:
     Type: AWS::Serverless::Function 
     Properties:
       CodeUri: app/
-      Handler: app.stream_handler
+      Handler: document_indexer_app.lambda_handler
       Runtime: python3.11
       Timeout: 30
       Role: arn:aws:iam::525636320068:role/travel_assistant_lambda

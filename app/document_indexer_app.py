@@ -1,10 +1,9 @@
 import json
 import boto3
-from app.services.generators.embedings_generator import generate_embeddings
-
-from app.services.parsers.pdf_parser import PdfParser
-from app.services.repositories.embeddings_repository import EmbeddingRepository
-from app.services.usecases.upload_files import S3Uploader
+from services.generators.embedings_generator import generate_embeddings
+from services.parsers.pdf_parser import PdfParser
+from services.repositories.embeddings_repository import EmbeddingRepository
+from services.usecases.upload_files import S3Uploader
 
 # import requests
 pdf_parser = PdfParser()

@@ -2,7 +2,7 @@ import aiohttp
 import os
 import logging
 
-from app.services.telegram.requests.update_chat import File
+from services.telegram.requests.update_chat import File
 
 class TelegramClient:
    

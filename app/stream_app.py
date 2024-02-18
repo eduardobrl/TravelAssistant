@@ -1,7 +1,8 @@
 import asyncio
 import json
-from app.domain.constants import MessagesConstants
-from app.services.telegram.telegram_client import TelegramClient
+
+from domain.constants import MessagesConstants
+from services.telegram.telegram_client import TelegramClient
 
 
 def stream_handler(event, context):
