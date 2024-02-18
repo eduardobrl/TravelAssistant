@@ -12,7 +12,9 @@ Globals:
     # You can add LoggingConfig parameters such as the Logformat, Log Group, and SystemLogLevel or ApplicationLogLevel. Learn more here https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html#sam-function-loggingconfig.
     LoggingConfig:
       LogFormat: JSON
+    DocumentBucketName: travel-assistant-documents
 Resources:
+
   HelloWorldFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
@@ -35,6 +37,7 @@ Resources:
           Properties:
             Path: /hello
             Method: post
+
   StreamProcessorFunction:
     Type: AWS::Serverless::Function 
     Properties:
@@ -58,6 +61,39 @@ Resources:
             StartingPosition: LATEST
             Enabled: true
             MaximumRetryAttempts: 10
+
+  DocumentIndexerFunction:
+    Type: AWS::Serverless::Function 
+    Properties:
+      CodeUri: hello_world/
+      Handler: app.stream_handler
+      Runtime: python3.11
+      Timeout: 30
+      Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref DocumentBucketName
+          TELEGRAM_BOT_TOKEN: <TELEGRAM_BOT_TOKEN>
+      Architectures:
+      - x86_64
+
+  LambdaInvokePermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      FunctionName: !GetAtt DocumentIndexerFunction.Arn
+      Action: 'lambda:InvokeFunction'
+      Principal: s3.amazonaws.com
+      SourceAccount: !Ref 'AWS::AccountId'
+      SourceArn: !Ref DocumentBucket.Arn
+
+  DocumentBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref DocumentBucketName
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:*
+            Function: !GetAtt DocumentIndexerFunction.Arn
 
 
   DynamoDBTable:
