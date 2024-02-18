@@ -1,5 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel, Field
+from typing import Any
 
 class From(BaseModel):
   id: int
@@ -16,6 +17,20 @@ class Chat(BaseModel):
   username: Optional[str] = None
   type: str
 
+class Document(BaseModel):
+  file_id: str
+  file_unique_id: str
+  file_name: str
+  file_size: int
+  mime_type: str
+  file_size: int
+
+class File:
+  file_id: str
+  file_unique_id: str
+  file_path: str
+  file_size: int
+
 class Message(BaseModel):
   message_id: int
   from_: From = Field(alias='from')
@@ -26,3 +41,4 @@ class Message(BaseModel):
 class Update(BaseModel):
   update_id: int
   message: Message
+  document: Optional[Document] = None

@@ -18,6 +18,8 @@ Ou
 
 *Quando será minha próxima viagem internacional ?*
 """
+
+    MESSAGE_TOO_LARGE = """Me desculpe, mas não posso ler arquivos com mais de 20MB."""
                 
     OK_RESPONSE_NOT_ALLOWED = {
                 "statusCode": 200,
