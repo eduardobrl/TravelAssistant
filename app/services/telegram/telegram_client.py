@@ -1,3 +1,4 @@
+from pathlib import Path
 import aiofiles
 import aiohttp
 import os
@@ -65,7 +66,11 @@ class TelegramClient:
         return None
     
     async def download_file(self, file: File):
+        
+        file_path = Path('/tmp/') / Path(file["result"]["file_path"])
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        
         async with aiohttp.ClientSession() as session:
             async with session.get(self.FILE_URL + "/" + file["result"]["file_path"]) as response:
-                async with aiofiles.open('/tmp/' + file["result"]["file_path"], 'wb') as f:
+                async with aiofiles.open(file_path.absolute(), 'wb') as f:
                     await f.write(await response.read())
