@@ -3,6 +3,7 @@ import json
 import logging
 import requests
 import boto3
+from s3transfer import S3Transfer
 from domain.constants import MessagesConstants
 from services.openai.openai_client import OpenAiClient
 from services.repositories.chat_repository import ChatRepository, ChatRole
@@ -86,12 +87,10 @@ async def async_lambda_handler(event, context):
             }
         )
         
-        s3.upload_fileobj(
-            response, 
-            'travel-assistant-documents', 
-            update.message.document.file_name
-        )
+        transfer = S3Transfer(s3)
         
+        transfer.upload_file('/tmp/' + file["result"]["file_path"], 'travel-assistant-documents', update.message.document.file_name)
+
         logging.info({
             "message": "realizado o put do arquivo"
             }

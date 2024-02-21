@@ -1,3 +1,4 @@
+import aiofiles
 import aiohttp
 import os
 import logging
@@ -63,7 +64,8 @@ class TelegramClient:
                 return await response.json()
         return None
     
-    async def download_file(self, file: File):  
+    async def download_file(self, file: File):
         async with aiohttp.ClientSession() as session:
             async with session.get(self.FILE_URL + "/" + file["result"]["file_path"]) as response:
-                return response.content
+                async with aiofiles.open('/tmp/' + file["result"]["file_path"], 'wb') as f:
+                    await f.write(await response.read())
