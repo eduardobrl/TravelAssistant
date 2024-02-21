@@ -1,7 +1,5 @@
-from tkinter import Image
 from typing import Any
 from pydantic import BaseModel
-import fitz
 
 class Sentence(BaseModel):
     sentence: str
