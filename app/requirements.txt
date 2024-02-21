@@ -11,3 +11,4 @@ pytz
 click
 pdfreader
 pymongo
+aiofiles
