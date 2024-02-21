@@ -12,3 +12,5 @@ click
 pdfreader
 pymongo
 aiofiles
+
+fitz
