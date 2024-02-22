@@ -9,8 +9,6 @@ google-auth-httplib2
 google-auth-oauthlib
 pytz
 click
-pdfreader
 pymongo
 aiofiles
-
 fitz
