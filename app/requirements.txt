@@ -12,3 +12,4 @@ click
 pymongo
 aiofiles
 fitz
+boto3
