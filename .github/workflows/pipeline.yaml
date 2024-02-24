@@ -20,7 +20,7 @@ env:
   # If there are functions with "Image" PackageType in your template,
   # uncomment the line below and add "--image-repository ${TESTING_IMAGE_REPOSITORY}" to
   # testing "sam package" and "sam deploy" commands.
-  # TESTING_IMAGE_REPOSITORY = '0123456789.dkr.ecr.region.amazonaws.com/repository-name'
+  TESTING_IMAGE_REPOSITORY: 'arn:aws:ecr:us-east-1:525636320068:repository/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq'
   TESTING_REGION: us-east-1
   PROD_STACK_NAME: sam-app
   PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::525636320068:role/aws-sam-cli-managed-Hom-pipel-PipelineExecutionRole-DMOA34YoyzoG
@@ -29,7 +29,7 @@ env:
   # If there are functions with "Image" PackageType in your template,
   # uncomment the line below and add "--image-repository ${PROD_IMAGE_REPOSITORY}" to
   # prod "sam package" and "sam deploy" commands.
-  # PROD_IMAGE_REPOSITORY = '0123456789.dkr.ecr.region.amazonaws.com/repository-name'
+  PROD_IMAGE_REPOSITORY: 'arn:aws:ecr:us-east-1:525636320068:repository/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq'
   PROD_REGION: us-east-1
 
 jobs:
@@ -135,7 +135,8 @@ jobs:
           sam package \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
             --region ${TESTING_REGION} \
-            --output-template-file packaged-testing.yaml
+            --output-template-file packaged-testing.yaml \
+            --image-repository ${PROD_IMAGE_REPOSITORY}
 
       - uses: actions/upload-artifact@v3
         with:
@@ -158,7 +159,8 @@ jobs:
           sam package \
             --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
             --region ${PROD_REGION} \
-            --output-template-file packaged-prod.yaml
+            --output-template-file packaged-prod.yaml \
+            --image-repository ${PROD_IMAGE_REPOSITORY}
 
       - uses: actions/upload-artifact@v3
         with:
