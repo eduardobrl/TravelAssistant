@@ -1,5 +1,7 @@
 FROM public.ecr.aws/lambda/python:3.12
 
+RUN dnf -y install gcc
+
 COPY requirements.txt ./
 
 RUN python3.12 -m pip install -r requirements.txt -t .
