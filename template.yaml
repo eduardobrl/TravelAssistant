@@ -17,9 +17,9 @@ Resources:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
       PackageType: Image
-      ImageUri: 525636320068.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq
-      Handler: telegram_app.lambda_handler
-      Runtime: python3.11
+      ImageConfig:
+        Command:
+          - telegram_app.lambda_handler
       Timeout: 30
       Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
       Environment:
@@ -36,14 +36,18 @@ Resources:
           Properties:
             Path: /hello
             Method: post
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./app
+      DockerTag: python3.12-v1
 
   StreamProcessorFunction:
     Type: AWS::Serverless::Function 
     Properties:
       PackageType: Image
-      ImageUri: 525636320068.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq
-      Handler: stream_app.stream_handler
-      Runtime: python3.11
+      ImageConfig:
+        Command:
+          - stream_app.stream_handler
       Timeout: 30
       Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
       Environment:
@@ -61,14 +65,18 @@ Resources:
             StartingPosition: LATEST
             Enabled: true
             MaximumRetryAttempts: 10
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./app
+      DockerTag: python3.12-v1
 
   DocumentIndexerFunction:
     Type: AWS::Serverless::Function 
     Properties:
       PackageType: Image
-      ImageUri: 525636320068.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq
-      Handler: document_indexer_app.lambda_handler
-      Runtime: python3.11
+      ImageConfig:
+        Command:
+          - document_indexer_app.lambda_handler
       Timeout: 30
       Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
       Environment:
@@ -77,6 +85,10 @@ Resources:
           TELEGRAM_BOT_TOKEN: <TELEGRAM_BOT_TOKEN>
       Architectures:
       - x86_64
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./app
+      DockerTag: python3.12-v1
 
   LambdaInvokePermission:
     Type: 'AWS::Lambda::Permission'
