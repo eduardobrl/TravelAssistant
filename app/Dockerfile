@@ -1,10 +1,10 @@
-FROM public.ecr.aws/lambda/python:3.10
+FROM public.ecr.aws/lambda/python:3.8
 
 RUN dnf -y install gcc
 
 COPY requirements.txt ./
 
-RUN python3.10 -m pip install -r requirements.txt -t .
+RUN python3.8 -m pip install -r requirements.txt -t .
 
 COPY . .
 
