@@ -97,7 +97,7 @@ jobs:
             --capabilities CAPABILITY_IAM \
             --region ${TESTING_REGION} \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
-            --image-repository ${TESTING_IMAGE_REPOSITORY} \
+            --image-repositories ${TESTING_IMAGE_REPOSITORY} \
             --no-fail-on-empty-changeset \
             --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE}
 
@@ -129,7 +129,7 @@ jobs:
         run: |
           sam package \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
-            --image-repository ${TESTING_IMAGE_REPOSITORY} \
+            --image-repositories ${TESTING_IMAGE_REPOSITORY} \
             --region ${TESTING_REGION} \
             --output-template-file packaged-testing.yaml
 
@@ -153,7 +153,7 @@ jobs:
         run: |
           sam package \
             --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
-            --image-repository ${PROD_IMAGE_REPOSITORY} \
+            --image-repositories ${PROD_IMAGE_REPOSITORY} \
             --region ${PROD_REGION} \
             --output-template-file packaged-prod.yaml
 
@@ -193,7 +193,7 @@ jobs:
             --capabilities CAPABILITY_IAM \
             --region ${TESTING_REGION} \
             --s3-bucket ${TESTING_ARTIFACTS_BUCKET} \
-            --image-repository ${TESTING_IMAGE_REPOSITORY} \
+            --image-repositories ${TESTING_IMAGE_REPOSITORY} \
             --no-fail-on-empty-changeset \
             --role-arn ${TESTING_CLOUDFORMATION_EXECUTION_ROLE}
 
@@ -240,6 +240,6 @@ jobs:
             --capabilities CAPABILITY_IAM \
             --region ${PROD_REGION} \
             --s3-bucket ${PROD_ARTIFACTS_BUCKET} \
-            --image-repository ${PROD_IMAGE_REPOSITORY} \
+            --image-repositories ${PROD_IMAGE_REPOSITORY} \
             --no-fail-on-empty-changeset \
             --role-arn ${PROD_CLOUDFORMATION_EXECUTION_ROLE}
