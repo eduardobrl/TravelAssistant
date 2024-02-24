@@ -4,8 +4,8 @@ pipeline_user = "arn:aws:iam::525636320068:user/aws-sam-cli-managed-Image-Hom-pi
 permissions_provider = "AWS IAM"
 
 [Image-Hom.pipeline_bootstrap.parameters]
-pipeline_execution_role = "arn:aws:iam::525636320068:role/aws-sam-cli-managed-Hom-pipel-PipelineExecutionRole-DMOA34YoyzoG"
-cloudformation_execution_role = "arn:aws:iam::525636320068:role/aws-sam-cli-managed-Hom-p-CloudFormationExecutionRo-z9gsHGMCPBWV"
+pipeline_execution_role = "arn:aws:iam::525636320068:role/aws-sam-cli-managed-Image-Hom-PipelineExecutionRole-TjSAS9Sm4otL"
+cloudformation_execution_role = "arn:aws:iam::525636320068:role/aws-sam-cli-managed-Image-CloudFormationExecutionRo-UMP1bzaMj3qa"
 artifacts_bucket = ""
 image_repository = "525636320068.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq"
 region = "us-east-1"
