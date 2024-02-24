@@ -1,6 +1,6 @@
 FROM public.ecr.aws/lambda/python:3.8
 
-RUN dnf -y install gcc
+RUN yum -y install gcc
 
 COPY requirements.txt ./
 
