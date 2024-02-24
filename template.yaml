@@ -99,16 +99,6 @@ Resources:
       SourceAccount: !Ref 'AWS::AccountId'
       SourceArn: arn:aws:s3:::travel-assistant-documents
 
-  DocumentBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: travel-assistant-documents
-      NotificationConfiguration:
-        LambdaConfigurations:
-          - Event: s3:ObjectCreated:*
-            Function: !GetAtt DocumentIndexerFunction.Arn
-
-
   DynamoDBTable:
     Type: AWS::DynamoDB::Table
     Properties: 
