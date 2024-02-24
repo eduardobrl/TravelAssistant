@@ -1,10 +1,7 @@
 from pathlib import Path
 import aiofiles
 import aiohttp
-import os
-import logging
-
-from app.services.secrets.secrets import get_secrets
+from services.secrets.secrets import get_secrets
 from services.telegram.requests.update_chat import File
 
 class TelegramClient:

@@ -1,15 +1,11 @@
 import datetime
-import json
-import os
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from pydantic import BaseModel
 from dateutil import parser
-import pytz
-
-from app.services.secrets.secrets import get_secrets
+from services.secrets.secrets import get_secrets
 from services.repositories.credential_repository import CredentialRepository, UserInfo
 from typing import List, Optional
 

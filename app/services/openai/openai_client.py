@@ -2,7 +2,7 @@ import datetime
 import json
 from openai import OpenAI
 from pydantic import SecretStr
-from app.services.secrets.secrets import get_secrets
+from services.secrets.secrets import get_secrets
 from services.calendar.calendar import Calendar
 from services.openai.openai_tools import OpenAiTools
 

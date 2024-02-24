@@ -1,6 +1,6 @@
 import json
 import boto3
-from app.services.secrets.secrets import load_secrets
+from services.secrets.secrets import load_secrets
 from services.generators.embedings_generator import generate_embeddings
 from services.parsers.pdf_parser import PdfParser
 from services.repositories.embeddings_repository import EmbeddingRepository

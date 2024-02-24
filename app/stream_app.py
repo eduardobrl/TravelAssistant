@@ -1,7 +1,7 @@
 import asyncio
 import json
 
-from app.services.secrets.secrets import load_secrets
+from services.secrets.secrets import load_secrets
 from domain.constants import MessagesConstants
 from services.telegram.telegram_client import TelegramClient
 
