@@ -1,6 +1,8 @@
 import datetime
 import json
 from openai import OpenAI
+from pydantic import SecretStr
+from app.services.secrets.secrets import get_secrets
 from services.calendar.calendar import Calendar
 from services.openai.openai_tools import OpenAiTools
 
@@ -9,7 +11,7 @@ from services.repositories.chat_repository import ChatMessages
 class OpenAiClient:
 
     def __init__(self) -> None:
-        self.client = OpenAI()
+        self.client = OpenAI(api_key=get_secrets().OPENAI_API_KEY)
         calendar = Calendar()
         self.tools = OpenAiTools(calendar)
         

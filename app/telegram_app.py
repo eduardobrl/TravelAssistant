@@ -1,18 +1,18 @@
 import asyncio
 import json
 import logging
-import requests
 import boto3
 from s3transfer import S3Transfer
+from app.services.secrets.secrets import load_secrets
 from domain.constants import MessagesConstants
 from services.openai.openai_client import OpenAiClient
 from services.repositories.chat_repository import ChatRepository, ChatRole
 from services.telegram.requests.update_chat import Update
 from services.telegram.telegram_client import TelegramClient
 
+load_secrets()
 
 def lambda_handler(event, context):
-    # Use asyncio.run to synchronously "await" an async function
     result = asyncio.run(async_lambda_handler(event, context))
     
     return result     

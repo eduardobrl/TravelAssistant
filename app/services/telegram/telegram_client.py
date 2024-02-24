@@ -4,12 +4,13 @@ import aiohttp
 import os
 import logging
 
+from app.services.secrets.secrets import get_secrets
 from services.telegram.requests.update_chat import File
 
 class TelegramClient:
    
     def __init__(self) -> None:
-        TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+        TELEGRAM_BOT_TOKEN = get_secrets().OPENAI_API_KEY
         self.API_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
         self.FILE_URL = f"https://api.telegram.org/file/bot{TELEGRAM_BOT_TOKEN}"
     

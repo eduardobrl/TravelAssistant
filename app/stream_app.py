@@ -1,9 +1,11 @@
 import asyncio
 import json
 
+from app.services.secrets.secrets import load_secrets
 from domain.constants import MessagesConstants
 from services.telegram.telegram_client import TelegramClient
 
+load_secrets()
 
 def stream_handler(event, context):
     result = asyncio.run(async_stream_handler(event, context))

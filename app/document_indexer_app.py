@@ -1,5 +1,6 @@
 import json
 import boto3
+from app.services.secrets.secrets import load_secrets
 from services.generators.embedings_generator import generate_embeddings
 from services.parsers.pdf_parser import PdfParser
 from services.repositories.embeddings_repository import EmbeddingRepository
@@ -10,6 +11,7 @@ pdf_parser = PdfParser()
 s3_uploader = S3Uploader()
 repository = EmbeddingRepository()
 s3 = boto3.client('s3')
+load_secrets()
 
 def lambda_handler(event, context):
     bucket = event['Records'][0]['s3']['bucket']['name']

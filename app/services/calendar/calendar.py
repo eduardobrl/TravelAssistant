@@ -9,6 +9,7 @@ from pydantic import BaseModel
 from dateutil import parser
 import pytz
 
+from app.services.secrets.secrets import get_secrets
 from services.repositories.credential_repository import CredentialRepository, UserInfo
 from typing import List, Optional
 
@@ -44,7 +45,7 @@ def localize(self, dt, is_dst=False):
 class Calendar:
     def __init__(self):
         self.credential_repository = CredentialRepository()
-        self.calendar_id = os.environ.get("CALENDAR_ID")
+        self.calendar_id = get_secrets().CALENDAR_ID
         
         user_info = self.credential_repository.get_user_info()
         creds = Credentials.from_authorized_user_info(user_info.model_dump(), SCOPES)
