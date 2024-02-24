@@ -3,7 +3,7 @@ import json
 import logging
 import boto3
 from s3transfer import S3Transfer
-from app.services.secrets.secrets import load_secrets
+from services.secrets.secrets import load_secrets
 from domain.constants import MessagesConstants
 from services.openai.openai_client import OpenAiClient
 from services.repositories.chat_repository import ChatRepository, ChatRole
