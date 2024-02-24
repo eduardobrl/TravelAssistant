@@ -17,13 +17,13 @@ env:
   TESTING_PIPELINE_EXECUTION_ROLE: arn:aws:iam::525636320068:role/aws-sam-cli-managed-Image-Hom-PipelineExecutionRole-TjSAS9Sm4otL
   TESTING_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::525636320068:role/aws-sam-cli-managed-Image-CloudFormationExecutionRo-UMP1bzaMj3qa
   TESTING_ARTIFACTS_BUCKET: 
-  TESTING_IMAGE_REPOSITORY: arn:aws:ecr:us-east-1:525636320068:repository/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq
+  TESTING_IMAGE_REPOSITORY: 525636320068.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq
   TESTING_REGION: us-east-1
   PROD_STACK_NAME: sam-app
   PROD_PIPELINE_EXECUTION_ROLE: arn:aws:iam::525636320068:role/aws-sam-cli-managed-Image-Hom-PipelineExecutionRole-TjSAS9Sm4otL
   PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::525636320068:role/aws-sam-cli-managed-Image-CloudFormationExecutionRo-UMP1bzaMj3qa
   PROD_ARTIFACTS_BUCKET: 
-  PROD_IMAGE_REPOSITORY: arn:aws:ecr:us-east-1:525636320068:repository/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq
+  PROD_IMAGE_REPOSITORY: 525636320068.dkr.ecr.us-east-1.amazonaws.com/aws-sam-cli-managed-hom-pipeline-resources-imagerepository-xsfusguefvoq
   PROD_REGION: us-east-1
 
 jobs:
