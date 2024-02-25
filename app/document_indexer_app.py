@@ -11,9 +11,9 @@ pdf_parser = PdfParser()
 s3_uploader = S3Uploader()
 repository = EmbeddingRepository()
 s3 = boto3.client('s3')
-load_secrets()
 
 def lambda_handler(event, context):
+    load_secrets()
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = event['Records'][0]['s3']['object']['key']
 
