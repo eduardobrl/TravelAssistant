@@ -7,7 +7,7 @@ from services.telegram.requests.update_chat import File
 class TelegramClient:
    
     def __init__(self) -> None:
-        TELEGRAM_BOT_TOKEN = get_secrets().OPENAI_API_KEY
+        TELEGRAM_BOT_TOKEN = get_secrets().TELEGRAM_BOT_TOKEN
         self.API_URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
         self.FILE_URL = f"https://api.telegram.org/file/bot{TELEGRAM_BOT_TOKEN}"
     
