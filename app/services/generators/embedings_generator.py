@@ -1,9 +1,10 @@
 
+from app.services.secrets.secrets import get_secrets
 from domain.embedings_entities import Embedding, EmbeddingsResult
 from domain.file_entities import FileResult
 import openai
 
-client = openai.Client()
+client = openai.Client(api_key=get_secrets().OPENAI_API_KEY)
 
 def generate_embeddings(file: FileResult) -> EmbeddingsResult:    
     text_embeddings_list = []
