@@ -1,5 +1,5 @@
 
-from app.services.secrets.secrets import get_secrets
+from services.secrets.secrets import get_secrets
 from domain.embedings_entities import Embedding, EmbeddingsResult
 from domain.file_entities import FileResult
 import openai
