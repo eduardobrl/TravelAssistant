@@ -41,4 +41,7 @@ def load_secrets() -> Secrets:
     
 def get_secrets() -> Secrets:
     global loaded_secrets
+    if loaded_secrets is None:
+        loaded_secrets = load_secrets()
+        
     return loaded_secrets
