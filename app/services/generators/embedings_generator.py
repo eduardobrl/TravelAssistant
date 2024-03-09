@@ -1,24 +1,23 @@
 
+from services.openai.openai_client import OpenAiClient
 from services.secrets.secrets import get_secrets
 from domain.embedings_entities import Embedding, EmbeddingsResult
 from domain.file_entities import FileResult
-import openai
 
-client = openai.Client(api_key=get_secrets().OPENAI_API_KEY)
+client = OpenAiClient()
 
 def generate_embeddings(file: FileResult) -> EmbeddingsResult:    
     text_embeddings_list = []
     for sentence in file.sentences:
-        embeddings_result = client.embeddings.create(
-                model="text-embedding-ada-002",
-                input=sentence)
-        
-        embeddings = embeddings_result.data[0].embedding
+        embeddings = client.get_embeddings(sentence.model_dump_json())
         
         text_embeddings_list.append(
             Embedding(
                         embeddings = embeddings,
                         file_name=file.file_name,
+                        text=sentence.sentence,
+                        page_number=sentence.page_number
+                        
                 )
         )
     

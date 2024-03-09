@@ -1,6 +1,6 @@
 import json
+import os
 import boto3
-from services.secrets.secrets import load_secrets
 from services.generators.embedings_generator import generate_embeddings
 from services.parsers.pdf_parser import PdfParser
 from services.repositories.embeddings_repository import EmbeddingRepository
@@ -12,13 +12,14 @@ s3_uploader = S3Uploader()
 repository = EmbeddingRepository()
 s3 = boto3.client('s3')
 
+file_path = os.environ.get("FILE_PATH")
+
 def lambda_handler(event, context):
-    load_secrets()
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = event['Records'][0]['s3']['object']['key']
 
     try:
-        local_file_path = '/tmp/' + key 
+        local_file_path = file_path + key 
         s3.download_file(bucket, key, local_file_path)
         
         results = pdf_parser.parse_file(local_file_path)
@@ -39,13 +40,3 @@ def lambda_handler(event, context):
             "message": "hello world",
         }),
     }
-
-
-if __name__ == "__main__":  
-    s3_uploader.upload("Booking_Confirmation.pdf")
-    results = pdf_parser.parse_file("Booking_Confirmation.pdf")
-    embeddings = generate_embeddings(results)
-    
-    repository.insert_embedding(embeddings)
-    
-    

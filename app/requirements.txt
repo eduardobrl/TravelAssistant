@@ -11,5 +11,5 @@ pytz
 click
 pymongo
 aiofiles
-fitz
+PyMuPDF
 boto3

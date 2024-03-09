@@ -10,7 +10,7 @@ from services.repositories.chat_repository import ChatRepository, ChatRole
 from services.telegram.requests.update_chat import Update
 from services.telegram.telegram_client import TelegramClient
 
-load_secrets()
+
 
 def lambda_handler(event, context):
     result = asyncio.run(async_lambda_handler(event, context))
@@ -98,6 +98,7 @@ async def async_lambda_handler(event, context):
         return MessagesConstants.OK_RESPONSE
     
     chat_history = repository.get_messages(update.message.chat.id)
+   
        
     response = openai.ask(update.message.text, chat_history)
     

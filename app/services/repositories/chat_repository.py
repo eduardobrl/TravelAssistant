@@ -95,7 +95,7 @@ class ChatRepository:
                 ':rk': {'S': 'MESSSAGE'}
             },
             ScanIndexForward= False,
-            Limit=20
+            Limit=2
         )
         
         if 'Items' not in response:

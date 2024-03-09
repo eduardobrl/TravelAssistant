@@ -36,6 +36,8 @@ class OpenAiTools():
         """
         return self.calendar.add_event_to_calendar(AddEvent.model_validate(addToCalendarEvent)).model_dump_json()
     
+
+    
     schemas = [
         {
             "type": "function",

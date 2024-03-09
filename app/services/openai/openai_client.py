@@ -2,6 +2,8 @@ import datetime
 import json
 from openai import OpenAI
 from pydantic import SecretStr
+from domain.embedings_entities import Embedding
+from services.repositories.embeddings_repository import EmbeddingRepository
 from services.secrets.secrets import get_secrets
 from services.calendar.calendar import Calendar
 from services.openai.openai_tools import OpenAiTools
@@ -14,6 +16,7 @@ class OpenAiClient:
         self.client = OpenAI(api_key=get_secrets().OPENAI_API_KEY)
         calendar = Calendar()
         self.tools = OpenAiTools(calendar)
+        self.embedding_repository = EmbeddingRepository()
         
         now = datetime.datetime.now()
         self.SYSTEM_PROMPT = """
@@ -36,13 +39,53 @@ class OpenAiClient:
             Assistente: Busca no calendário a próxima viagem internacional.
             Assistente: A próxima viagem internacional será em ...
             
+            Você tem acesso a uma série de documentos do usuário e pode utilizar esses documentos como fontes para
+            responder as perguntas. Os documentos que mais se aproximaram das perguntas do usuário foram os seguintes
+            
+            ------------------------------------------------------------------------------------------------------
+            Ao utilizar esses documentos como fonte, responda SEMPRE no seguinte formato:
+            
+            SUA RESPOSTA
+            
+            Fonte: <file_name>
+            Página: <page_number>
+            
+            ------------------------------------------------------------------------------------------------------
+            Exemplo:
+            
+            Seu hotel no Atacama é El Deserto.
+            
+            Fonte: Booking_Atacama.pdf
+            Pagina: 10
+            ------------------------------------------------------------------------------------------------------
+            
+            DOCUMENTOS:
+            
+            {documentos}
         """
         
         self.SYSTEM_PROMPT += f"Para que possa auxiliar o usuário com agendamentos saiba que hoje é {now}"
         
+        
+    def get_embeddings(self, text: str) -> list[float]:
+        embeddings_result = self.client.embeddings.create(
+                model="text-embedding-ada-002",
+                input=text)
+        
+        embeddings = embeddings_result.data[0].embedding
+        
+        return embeddings
+    
     def ask(self, question, history:ChatMessages = None) -> str:
+        
+        embeddings = self.get_embeddings(question)
+        
+        results = self.embedding_repository.search_embeddings(embeddings)       
+        
+        system_prompt =  self.SYSTEM_PROMPT.replace("{documentos}", results.model_dump_json())
+        
         messages=[
-            {"role": "system", "content": self.SYSTEM_PROMPT} ]
+            {"role": "system", "content": system_prompt} ]
         
         if history is not None:
             messages.extend(history.messages)
@@ -50,7 +93,7 @@ class OpenAiClient:
         messages.append({"role": "user", "content": question})
         
         completions =  self.client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-3.5-turbo-0125",
             messages=messages,
             tools= self.tools.schemas,
         )

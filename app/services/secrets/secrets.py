@@ -8,6 +8,9 @@ class Secrets(BaseModel):
     TELEGRAM_BOT_TOKEN: str
     OPENAI_API_KEY: str
     CALENDAR_ID: str
+    MONGODB_URL: str
+    MONGODB_DB: str
+    MONGODB_COLLECTION: str
     
 loaded_secrets: Secrets = None
    

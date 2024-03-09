@@ -9,7 +9,7 @@ class PdfParser(FileParser):
         images: list[Picture] = []
         
         
-        doc = fitz.open("docs/" + filename)
+        doc = fitz.open(filename)
         for page in doc:
             page.get_text().split(".\n")
             
