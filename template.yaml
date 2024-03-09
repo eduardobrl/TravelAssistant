@@ -77,7 +77,9 @@ Resources:
       Role: arn:aws:iam::525636320068:role/travel_assistant_lambda
       Environment:
         Variables:
+          TABLE_NAME: TravelAssistantTable
           BUCKET_NAME: travel-assistant-documents
+          FILE_PATH: /tmp/
       Architectures:
       - x86_64
     Metadata:

@@ -24,7 +24,6 @@ class PdfParser(FileParser):
                 if pix.n - pix.alpha > 3: # CMYK: convert to RGB first
                     pix = fitz.Pixmap(fitz.csRGB, pix)
                     
-                pix.save("page_%s-image_%s.png" % (page.number, image_index)) # save the image as png
                     
                 images.append(Picture(picture=pix, page_number=page.number))
 
