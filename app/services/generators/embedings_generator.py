@@ -8,16 +8,24 @@ client = OpenAiClient()
 
 def generate_embeddings(file: FileResult) -> EmbeddingsResult:    
     text_embeddings_list = []
+    
+    summary = client.summarize(file.sentences)
+    
     for sentence in file.sentences:
-        embeddings = client.get_embeddings(sentence.model_dump_json())
+        if(sentence.sentence == ""):
+            continue
         
+        sentence.summary = summary
+        
+        embeddings = client.get_embeddings(sentence.model_dump_json())
+
         text_embeddings_list.append(
             Embedding(
                         embeddings = embeddings,
                         file_name=file.file_name,
                         text=sentence.sentence,
-                        page_number=sentence.page_number
-                        
+                        page_number=sentence.page_number,
+                        summary=summary     
                 )
         )
     

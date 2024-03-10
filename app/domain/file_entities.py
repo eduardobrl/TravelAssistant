@@ -1,8 +1,9 @@
-from typing import Any
+from typing import Any, Optional
 from pydantic import BaseModel
 
 class Sentence(BaseModel):
     sentence: str
+    summary: Optional[str] = None
     page_number: int
     
 class Picture(BaseModel):

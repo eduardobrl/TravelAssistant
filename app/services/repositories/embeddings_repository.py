@@ -16,15 +16,15 @@ class EmbeddingRepository:
         models = [embedding.model_dump() for embedding in embedding_result.data]
         self.collection.insert_many(models)     
         
-    def search_embeddings(self, embedding_result: list[float]) -> EmbeddingQueryResult:
-        results = self.collection.aggregate([
+    def search_embeddings(self, embedding_result: list[float], text: str) -> EmbeddingQueryResult:
+        pipeline = [
             {
                 "$vectorSearch": {
-                "index": "vector_index",
-                "path": "embeddings",
-                "queryVector": embedding_result,
-                "numCandidates": 100,
-                "limit": 5
+                    "index": "vector_index",
+                    "path": "embeddings",
+                    "queryVector": embedding_result,
+                    "numCandidates": 100,
+                    "limit": 10
                 }
             },
             {
@@ -33,14 +33,17 @@ class EmbeddingRepository:
                     "score": { "$meta": "vectorSearchScore" }
                 }
             }
-        ])
+        ]  
+        
+        results = self.collection.aggregate(pipeline)
         
         results_list = [
             EmbeddingQuery(
                 file_name=result["file_name"], 
                 page_number=result["page_number"],
                 text = result["text"],
-                score=result["score"]
+                score=result["score"],
+                summary= result["summary"]
             ) 
             for result in results
         ]

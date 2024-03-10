@@ -3,6 +3,7 @@ import json
 from openai import OpenAI
 from pydantic import SecretStr
 from domain.embedings_entities import Embedding
+from domain.file_entities import Sentence
 from services.repositories.embeddings_repository import EmbeddingRepository
 from services.secrets.secrets import get_secrets
 from services.calendar.calendar import Calendar
@@ -80,15 +81,15 @@ class OpenAiClient:
         
         embeddings = self.get_embeddings(question)
         
-        results = self.embedding_repository.search_embeddings(embeddings)       
+        results = self.embedding_repository.search_embeddings(embeddings, question)       
         
         system_prompt =  self.SYSTEM_PROMPT.replace("{documentos}", results.model_dump_json())
         
         messages=[
             {"role": "system", "content": system_prompt} ]
         
-        if history is not None:
-            messages.extend(history.messages)
+        #if history is not None:
+        #    messages.extend(history.messages)
         
         messages.append({"role": "user", "content": question})
         
@@ -124,3 +125,29 @@ class OpenAiClient:
         
         
         return response_message.content
+    
+    
+    def summarize(self, sentences: list[Sentence]):
+        
+        SUMMARIZE_PROMPT = "Extraia metadados relevantes de forma resumida para ser usado em uma busca por similaridade."
+        
+        selected_text = ""
+        for sentence in sentences:
+            selected_text += sentence.sentence + ". "
+            
+            if len(selected_text) > 2000:
+                break
+           
+        
+        messages=[
+            {"role": "system", "content": SUMMARIZE_PROMPT} ,
+            {"role": "user", "content": selected_text}    
+        ]
+        
+        
+        completions =  self.client.chat.completions.create(
+            model="gpt-3.5-turbo-0125",
+            messages=messages
+        )
+        
+        return completions.choices[0].message.content

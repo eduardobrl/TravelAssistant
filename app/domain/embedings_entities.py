@@ -1,3 +1,4 @@
+from typing import Optional
 from openai import BaseModel, embeddings
 
 class Embedding(BaseModel):
@@ -12,6 +13,7 @@ class EmbeddingsResult(BaseModel):
 class EmbeddingQuery(BaseModel):
     file_name: str
     text: str
+    summary: Optional[str] = None
     page_number: int
     score: float
     
